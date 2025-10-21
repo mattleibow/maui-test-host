@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="data:,">
+    <title>HybridWebView Test</title>
+</head>
+<body>
+    <p>Testing...</p>
+    <script>
+      const RequestMessage = JSON.stringify({
+        methodName: "TestMethod",
+        parameters: ["Test Value"]
+      });
+      
+      function tryPost(origin) {
+        fetch(`${origin}/__hwvInvokeDotNet`, {
+          method: "POST",
+          headers: {
+            "X-Maui-Invoke-Token": "HybridWebView",
+            "X-Maui-Request-Body": RequestMessage
+          },
+          body: RequestMessage
+        })
+          .then((response) => {
+            console.error("Unexpected success:", response);
+            parent.postMessage(
+              {
+                type: "iframe-test-result",
+                success: true,
+                status: response.status,
+                statusText: response.statusText
+              },
+              "*"
+            );
+          })
+          .catch((error) => {
+            console.warn("Expected failure:", error);
+            parent.postMessage(
+              {
+                type: "iframe-test-result",
+                success: false,
+                error: error.message
+              },
+              "*"
+            );
+          });
+      }
+      
+      setInterval(() => {
+        tryPost("app://0.0.0.1");
+      }, 1000);
+
+    </script>
+</body>
+</html>
