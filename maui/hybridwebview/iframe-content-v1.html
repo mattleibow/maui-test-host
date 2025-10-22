@@ -31,7 +31,8 @@
                 type: "iframe-test-result",
                 success: true,
                 status: response.status,
-                statusText: response.statusText
+                statusText: response.statusText,
+                origin: origin
               },
               "*"
             );
@@ -42,7 +43,8 @@
               {
                 type: "iframe-test-result",
                 success: false,
-                error: error.message
+                error: error.message,
+                origin: origin
               },
               "*"
             );
@@ -51,6 +53,7 @@
       
       setInterval(() => {
         tryPost("app://0.0.0.1");
+        tryPost("https://0.0.0.1");
       }, 1000);
 
     </script>
