@@ -52,7 +52,7 @@
       }
       
       // Detect iOS and use appropriate scheme
-      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+      const isIOS = /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent) && !window.MSStream;
       const scheme = isIOS ? "app" : "https";
       const origin = `${scheme}://0.0.0.1`;
       
